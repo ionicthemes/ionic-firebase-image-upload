@@ -16,6 +16,10 @@ import { FirebaseService } from '../pages/service/firebase.service';
 
 import { environment } from '../environment/environment';
 
+import * as firebase from "firebase";
+
+firebase.initializeApp(environment.firebase)
+
 @NgModule({
   declarations: [
     MyApp,

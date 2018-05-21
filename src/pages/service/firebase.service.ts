@@ -26,7 +26,7 @@ export class FirebaseService {
   uploadImage(imageURI){
     return new Promise<any>((resolve, reject) => {
       let storageRef = firebase.storage().ref();
-      let imageRef = storageRef.child('image');
+      let imageRef = storageRef.child('image').child('imageName');
       this.encodeImageUri(imageURI, function(image64){
         imageRef.putString(image64, 'data_url')
         .then(snapshot => {
