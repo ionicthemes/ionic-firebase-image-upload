@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      Firebase image storage
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-grid>
+    <ion-row>
+      <ion-col col-md-4 offset-md-4>
+        <button ion-button (click)="openImagePicker()">Select Photo</button>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col col-md-4 offset-md-4>
+        <button ion-button (click)="openImagePickerCrop()">Select Photo (Crop)</button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
