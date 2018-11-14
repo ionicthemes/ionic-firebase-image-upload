@@ -3,7 +3,7 @@ import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
-
+import { WebView } from '@ionic-native/ionic-webview/ngx';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 
@@ -29,7 +29,8 @@ firebase.initializeApp(environment.firebase)
     BrowserModule,
     IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(environment.firebase), // imports firebase/app needed for everything
-    AngularFireStorageModule // imports firebase/storage only needed for storage features
+    AngularFireStorageModule, // imports firebase/storage only needed for storage features
+    WebView
   ],
   bootstrap: [IonicApp],
   entryComponents: [
