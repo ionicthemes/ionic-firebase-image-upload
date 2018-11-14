@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, ToastController, normalizeURL } from 'ionic-angular';
 
-import { ImagePicker } from '@ionic-native/image-picker';
+import { WebView } from '@ionic-native/ionic-webview/ngx';
 import { Crop } from '@ionic-native/crop';
 
 import { FirebaseService } from '../service/firebase.service';
@@ -14,7 +14,7 @@ export class HomePage {
 
   constructor(
     public navCtrl: NavController,
-    public imagePicker: ImagePicker,
+    private webview: WebView,
     public cropService: Crop,
     public toastCtrl: ToastController,
     public firebaseService: FirebaseService
@@ -72,7 +72,7 @@ export class HomePage {
   }
 
   uploadImageToFirebase(image){
-    image = normalizeURL(image);
+    image =  webview(image);
 
     //uploads img to firebase storage
     this.firebaseService.uploadImage(image)
