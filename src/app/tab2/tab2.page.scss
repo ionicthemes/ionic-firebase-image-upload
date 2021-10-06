@@ -1,0 +1,40 @@
+ion-content ion-toolbar {
+  --background: translucent;
+}
+
+.copy-row {
+  padding: 10px;
+}
+
+.login-form {
+  padding: 40px;
+}
+
+.login-btn {
+  margin-top: 30px;
+}
+
+.error-container {
+  .error-message {
+    display: flex;
+    align-items: center;
+    color: var(--ion-color-danger);
+    font-size: 14px;
+
+    ion-icon {
+      padding-inline-end: 8px;
+    }
+  }
+}
+.success-container {
+  .success-message {
+    display: flex;
+    align-items: center;
+    color: var(--ion-color-success);
+    font-size: 14px;
+
+    ion-icon {
+      padding-inline-end: 8px;
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "ionic-contacts-app": {
+      "hosting": {
+        "app": [
+          "ionic-contacts-app"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "demo": "ionic-contacts-app"
+  }
+}

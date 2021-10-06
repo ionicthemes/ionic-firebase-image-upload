@@ -1,0 +1,134 @@
+@import "./mixins/background-height";
+@import "./mixins/masked-lines-background";
+@import "./mixins/bouncing-lines-background";
+
+$max-lines-count: 6;
+
+:host {
+  --text-shell-background: transparent;
+  --text-shell-line-color: #EEE;
+  --text-shell-line-height: 16px;
+  --text-shell-line-gutter: 3px;
+
+  display: block;
+  position: relative;
+  color: transparent;
+  background-color: var(--text-shell-background);
+  transform-style: preserve-3d;
+  // To fix 1px line misalignment in chrome: https://developer.mozilla.org/en-US/docs/Web/CSS/background-clip
+  // (I also noticed that if I set the color to a solid color instead of having opacity, the issue doesn't happen)
+  background-clip: content-box;
+}
+
+// Default styles. When no animation attribute is provided
+:host(:not([animation])) {
+  // Default one line text-shell
+  @include masked-lines-background(1);
+
+  // Support for [lines] attribute
+  @for $i from 1 through $max-lines-count {
+    &[lines="#{ $i }"] {
+      @include masked-lines-background($i);
+    }
+  }
+
+  &.text-loaded {
+    background: none;
+    min-height: inherit;
+    color: inherit;
+  }
+}
+
+// Bouncing line loading animation
+:host([animation="bouncing"]) {
+  // Default one line text-shell
+  @include bouncing-lines-background(1);
+
+  // Support for [lines] attribute
+  @for $i from 1 through $max-lines-count {
+    &[lines="#{ $i }"] {
+      @include bouncing-lines-background($i);
+    }
+  }
+
+  &.text-loaded {
+    background: none;
+    min-height: inherit;
+    color: inherit;
+    // 0 is the default value (see: https://stackoverflow.com/a/15963044/1116959)
+    animation: 0;
+  }
+}
+
+// Background gradient beneath masked lines
+:host([animation="gradient"]) {
+  --text-shell-background: #FFF;
+  --text-shell-line-color: transparent !important;
+  --text-shell-animation-background: #EEE;
+  --text-shell-animation-color: #DDD;
+
+
+  // Calculate default height for 1 line
+  @include background-height(min-height, 1);
+
+  // The animation that goes beneath the masks
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background:
+      linear-gradient(to right, var(--text-shell-animation-background) 8%, var(--text-shell-animation-color) 18%, var(--text-shell-animation-background) 33%);
+    background-size: 800px 104px;
+    animation: animateBackground 2s ease-in-out infinite;
+  }
+
+  @keyframes animateBackground {
+    0%{
+      background-position: -468px 0
+    }
+
+    100%{
+      background-position: 468px 0
+    }
+  }
+
+  // The masks
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+
+    // Default one line text-shell
+    @include masked-lines-background(1);
+  }
+
+  // Support for [lines] attribute
+  @for $i from 1 through $max-lines-count {
+    &[lines="#{ $i }"] {
+      // Calculate default height for $i lines
+      @include background-height(min-height, $i);
+
+      &::after {
+        @include masked-lines-background($i);
+      }
+    }
+  }
+
+  &.text-loaded {
+    background: none;
+    min-height: inherit;
+    color: inherit;
+
+    &::before,
+    &::after {
+      background: none;
+      animation: 0;
+    }
+  }
+}

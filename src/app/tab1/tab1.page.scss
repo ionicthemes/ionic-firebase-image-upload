@@ -1,0 +1,50 @@
+ion-content ion-toolbar {
+  --background: translucent;
+}
+
+ion-grid {
+  --ion-grid-padding: 10px;
+}
+
+.copy-row {
+  padding: 10px;
+}
+
+.section-title {
+  font-weight: bold;
+}
+
+.post-item {
+  app-image-shell {
+    --image-shell-border-radius: 6px;
+    --image-shell-loading-background: #e1ecff;
+  }
+}
+
+.friends-row {
+  --ion-grid-columns: 7; // We want to show three friends and a half. Each friend fills 2 cols => (3.5 * 2 = 7 cols)
+  --ion-grid-column-padding: 0px;
+
+  flex-wrap: nowrap;
+  overflow-x: scroll;
+  will-change: scroll-position;
+
+  .friend-item {
+    --col-item-width: 2;
+
+    &:first-child {
+      margin-inline-start: -10px;
+    }
+
+    flex: 0 0 calc(calc(var(--col-item-width) / var(--ion-grid-columns, 12)) * 100%);
+    width: calc(calc(var(--col-item-width) / var(--ion-grid-columns, 12)) * 100%);
+    max-width: calc(calc(var(--col-item-width) / var(--ion-grid-columns, 12)) * 100%);
+
+    padding: 0px 10px;
+
+    app-image-shell {
+      --image-shell-border-radius: 50%;
+      --image-shell-loading-background: #e1ecff;
+    }
+  }
+}

@@ -1,18 +1,16 @@
 ## Upload Images to Firebase Storage from your Ionic app
 
-We all know that Firebase does a great job when it comes to realtime databases. But did you know that Firebase is also great for uploading data and files to your app's private Firebase Storage?
+<!-- There are a variety of options available for storing data, and choosing the right one will depend on your application needs, your expertise, and resources.
 
-In this Ionic Framework tutorial I’ll show you how to upload an image from an Ionic application to the Firebase Storage.
+Firebase offers Cloud Firestore which is a flexible, scalable NoSQL cloud database that is very easy to use with an Ionic app.
 
-Read the complete Ionic Firebase Tutorial in https://ionicthemes.com/tutorials/about/ionic-firebase-image-upload
+This repo is an Ionic demo app of a Contacts CRUD build with Firebase.
 
-This repo is an example of how to use image picker plugin in an Ionic app to select an image from your image gallery and then upload it to Firebase storage.
+We suggest you to read the companion tutorial that explains all the steps needed in order to [set up a Firestore database and connect it with your Ionic application](https://ionicthemes.com/tutorials/add-a-firebase-database-to-your-ionic-app) in order to save and fetch data.
 
-Also we added an example about how to crop the selected image before uploading it to Firebase.
+If you are looking for an Ionic Starter App with Firestore integration ready to go, you should check [Ionic Full Starter App - PRO](https://ionicthemes.com/templates/ionic5-full-starter-app-pro-version).  It includes many examples and use cases of data handling using Ionic and Firebase.
 
+- [DEMO](https://ionic-contacts-app.web.app/home)
+- [TUTORIAL](https://ionicthemes.com/tutorials/add-a-firebase-database-to-your-ionic-app)
 
-### Español
-Este repositorio es parte del tutorial **¿Cómo subir una imagen a firebase desde una aplicación de Ionic?**
-
-En este tutorial vamos a mostrar como subir una imagen desde una aplicación de Ionic a una base de datos de Firebase.
-Puedes leer el tutorial completo en español en [este Link](https://medium.com/learn-ionic-framework/c%C3%B3mo-subir-una-imagen-a-firebase-desde-una-aplicaci%C3%B3n-de-ionic-77b93f9d383b).
+![](https://static.ionicthemes.com/freebies/add-a-firebase-database-to-your-ionic-app-freebie.png) -->

@@ -1,0 +1,92 @@
+@import "./utils";
+
+@mixin bouncing-lines-background($lines: 1) {
+  $line-height: var(--text-shell-line-height, 16px);
+  $line-spacing: var(--text-shell-line-gutter, 3px);
+  $bg-color: var(--text-shell-line-color, #CCC);
+  $mask-color: var(--text-shell-background, #FFF);
+  $line-bg-color: var(--text-shell-background, #FFF);
+  $bg-y-pos: 0px;
+  $rand-width: #{randomNum(85, 95)};
+  $bg-image: 'linear-gradient(to right, ' + $bg-color + ' ' + $rand-width + '% , ' + $mask-color + ' ' + $rand-width + '%)';
+  $bg-position: '0 ' + $bg-y-pos;
+  $bg-size: '100% ' + $line-height;
+  $bg-size-animation-from: '85% ' + $line-height;
+  $bg-size-animation-to: '100% ' + $line-height;
+
+  @if ($lines == 1) {
+    background-image: #{$bg-image};
+    background-position: #{$bg-position};
+    background-size: #{$bg-size};
+    background-repeat: no-repeat;
+
+    animation-direction: alternate;
+    animation-name: animateLine;
+
+    @keyframes animateLine {
+      0%{
+        background-size: #{$bg-size-animation-from};
+      }
+
+      100%{
+        background-size: #{$bg-size-animation-to};
+      }
+    }
+  } @else {
+    @for $i from 2 through $lines {
+      // Add separator between lines
+      $bg-image: append($bg-image, linear-gradient(to right, #{$line-bg-color} 100%, #{$line-bg-color} 100%));
+      // This linear-gradient as separator starts below the last line,
+      // so we have to add $line-height to our y-pos pointer
+      $bg-y-pos: calc((#{$line-height} * (#{$i} - 1)) + (#{$line-spacing} * (#{$i} - 2)));
+      $bg-position: append($bg-position, '0 ' + $bg-y-pos);
+      $bg-size: append($bg-size, '100% ' + $line-spacing);
+      // separator lines have the same initial and end state, thus no animation occurs
+      $bg-size-animation-from: append($bg-size-animation-from, '100% ' + $line-spacing);
+      $bg-size-animation-to: append($bg-size-animation-to, '100% ' + $line-spacing);
+
+      // Add new line
+      // The last line should be narrow than the others
+      @if ($i == $lines) {
+        $rand-width: #{randomNum(30, 50)};
+        $bg-size-animation-from: append($bg-size-animation-from, '55% ' + $line-height);
+      } @else {
+        $rand-width: #{randomNum(60, 80)};
+        $bg-size-animation-from: append($bg-size-animation-from, '75% ' + $line-height);
+      }
+
+      $bg-image: append($bg-image, 'linear-gradient(to right, ' + $bg-color + ' ' + $rand-width + '% , ' + $mask-color + ' ' + $rand-width + '%)');
+      // This new line starts below the prviously added separator,
+      // so we have to add $line-spacing to our y-pos pointer
+      $bg-y-pos: calc((#{$line-height} * (#{$i} - 1)) + (#{$line-spacing} * (#{$i} - 1)));
+      $bg-position: append($bg-position, '0 ' + $bg-y-pos);
+      $bg-size: append($bg-size, '100% ' + $line-height);
+      $bg-size-animation-to: append($bg-size-animation-to, '100% ' + $line-height);
+    }
+
+    background-image: #{to-string($bg-image, ', ')};
+    background-position: #{to-string($bg-position, ', ')};
+    background-size: #{to-string($bg-size, ', ')};
+    background-repeat: no-repeat;
+
+    animation-direction: alternate-reverse;
+    animation-name: animateMultiLine;
+
+    @keyframes animateMultiLine {
+      0%{
+        background-size: #{to-string($bg-size-animation-from, ', ')};
+      }
+
+      100%{
+        background-size: #{to-string($bg-size-animation-to, ', ')};
+      }
+    }
+  }
+
+  @include background-height(min-height, $lines);
+
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+  animation-duration: 1s;
+}

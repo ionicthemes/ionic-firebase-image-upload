@@ -1,0 +1,68 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Upload Files
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Upload Files</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-row class="copy-row">
+    <ion-col>
+      <p>In order to upload protected files to Firebase Storage we first need to authenticate. This way the files can restrict access to content by user. <a href="https://firebase.google.com/docs/rules/rules-language?authuser=0" target="_blank">Understand Firebase security rules</a>.</p>
+    </ion-col>
+  </ion-row>
+  <form [formGroup]="loginForm" (ngSubmit)="doLogin()" class="login-form">
+    <ion-list class="inputs-list" lines="full">
+      <ion-item class="input-item">
+        <ion-input type="email" autocomplete="username" placeholder="Email" formControlName="email" clearInput autocapitalize="off" inputmode="email"></ion-input>
+      </ion-item>
+      <div class="error-container">
+        <ng-container *ngFor="let validation of validation_messages.email">
+          <div class="error-message" *ngIf="loginForm.get('email').hasError(validation.type) && (loginForm.get('email').dirty || loginForm.get('email').touched)">
+            <ion-icon name="information-circle-outline"></ion-icon>
+            <span>{{ validation.message }}</span>
+          </div>
+        </ng-container>
+      </div>
+
+      <ion-item class="input-item">
+        <ion-input type="password" placeholder="Password" autocomplete="password" formControlName="password"></ion-input>
+      </ion-item>
+      <div class="error-container">
+        <ng-container *ngFor="let validation of validation_messages.password">
+          <div class="error-message" *ngIf="loginForm.get('password').hasError(validation.type) && (loginForm.get('password').dirty || loginForm.get('password').touched)">
+            <ion-icon name="information-circle-outline"></ion-icon>
+            <span>{{ validation.message }}</span>
+          </div>
+        </ng-container>
+      </div>
+    </ion-list>
+
+    <ion-row>
+      <ion-col>
+        <ion-button class="login-btn" (click)="doSignIn()" expand="block" fill="outline" [disabled]="!loginForm.valid">Sign In</ion-button>
+      </ion-col>
+      <ion-col size="6">
+        <ion-button class="login-btn" (click)="doSignUp()" expand="block" [disabled]="!loginForm.valid">Sign Up</ion-button>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="submitError" class="error-container">
+      <ion-col class="error-message">
+        <ion-icon name="information-circle-outline"></ion-icon>
+        <span>{{ submitError }}</span>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="submitSuccess" class="success-container">
+      <ion-col class="success-message">
+        <ion-icon name="information-circle-outline"></ion-icon>
+        <span>{{ submitSuccess }}</span>
+      </ion-col>
+    </ion-row>
+  </form>
+</ion-content>

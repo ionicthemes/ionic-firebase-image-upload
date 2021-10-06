@@ -1,0 +1,28 @@
+// Inspired in: https://stackoverflow.com/a/41096631/1116959
+@function randomNum($min, $max) {
+  $rand: random();
+  $randomNum: $min + floor($rand * (($max - $min) + 1));
+
+  @return $randomNum;
+}
+
+// Inspired in: https://hugogiraudel.com/2013/08/08/advanced-sass-list-functions/
+@function to-string($list, $glue: '', $is-nested: false) {
+  $result: null;
+
+  @for $i from 1 through length($list) {
+    $e: nth($list, $i);
+
+    @if type-of($e) == list {
+      $result: $result#{to-string($e, $glue, true)};
+    } @else {
+      $result: if(
+        $i != length($list) or $is-nested,
+        $result#{$e}#{$glue},
+        $result#{$e}
+      );
+    }
+  }
+
+  @return $result;
+}

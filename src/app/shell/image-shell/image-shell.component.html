@@ -1,0 +1,3 @@
+<ion-spinner class="spinner"></ion-spinner>
+<img class="inner-img" [src]="_src" [alt]="_alt" [attr.loading]="_loadingStrategy" (load)="_imageLoaded()" (error)="_imageLoadError($event)"/>
+<ng-content *ngIf="_display === 'cover'"></ng-content>

@@ -1,0 +1,54 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Private Content
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Private Content</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-row class="copy-row">
+    <ion-col>
+      <p>This page allows you to list and upload files that can only be accessed by you.</p>
+      <p><a [routerLink]="['/']">Return to public content</a>.</p>
+    </ion-col>
+  </ion-row>
+<!--
+  <ion-button class="upload-image-btn" (click)="openCameraComponent()" expand="block">
+    <ion-icon slot="start" name="camera"></ion-icon>
+    Take Photo
+  </ion-button> -->
+
+  <ion-row class="buttons-row">
+    <ion-col>
+      <ion-button class="upload-image-btn" (click)="openCameraComponent()" expand="block">
+        <ion-icon slot="start" name="camera"></ion-icon>
+        Take Photo
+      </ion-button>
+    </ion-col>
+    <ion-col size="6">
+      <ion-button class="log-out-btn" (click)="signOut()" fill="outline" expand="block">Log out</ion-button>
+    </ion-col>
+  </ion-row>
+
+  <ion-row class="copy-row" *ngIf="files.imagesUrls.length == 0">
+    <ion-col>
+      <h4>There are no files uploaded by this user yet.</h4>
+    </ion-col>
+  </ion-row>
+  <ion-grid *ngIf="files.imagesUrls.length > 0">
+    <ion-row>
+      <ion-col class="photo-item" size="12" *ngFor="let photo of files.imagesUrls; index as position">
+        <app-aspect-ratio [ratio]="{w:1280, h:720}" (click)="showActionSheet(photo, position)">
+          <app-image-shell animation="spinner" [display]="'cover'" [src]="photo" [alt]=""></app-image-shell>
+        </app-aspect-ratio>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>

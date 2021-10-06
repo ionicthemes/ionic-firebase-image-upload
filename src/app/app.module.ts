@@ -1,48 +1,36 @@
+import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { ErrorHandler, NgModule } from '@angular/core';
-import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
-import { SplashScreen } from '@ionic-native/splash-screen';
-import { StatusBar } from '@ionic-native/status-bar';
-
-import { MyApp } from './app.component';
-import { HomePage } from '../pages/home/home';
-
-import { ImagePicker } from '@ionic-native/image-picker';
-import { Crop } from '@ionic-native/crop';
-
-import { AngularFireModule } from 'angularfire2';
-import { AngularFireStorageModule } from 'angularfire2/storage';
-import { FirebaseService } from '../pages/service/firebase.service';
-
-import { environment } from '../environment/environment';
-
-import * as firebase from "firebase";
-
-firebase.initializeApp(environment.firebase)
+import { RouteReuseStrategy } from '@angular/router';
+import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
+import { AppComponent } from './app.component';
+import { AppRoutingModule } from './app-routing.module';
+import { ReactiveFormsModule } from '@angular/forms';
+import { environment } from 'src/environments/environment';
+import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
+// import { getFirestore, provideFirestore } from '@angular/fire/firestore';
+import { getAuth, provideAuth } from '@angular/fire/auth';
+import { provideStorage, getStorage } from "@angular/fire/storage";
+import { AngularFireAuthModule } from '@angular/fire/compat/auth';
+import { AngularFireModule } from '@angular/fire/compat';
 
 @NgModule({
-  declarations: [
-    MyApp,
-    HomePage
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(MyApp),
-    AngularFireModule.initializeApp(environment.firebase), // imports firebase/app needed for everything
-    AngularFireStorageModule // imports firebase/storage only needed for storage features
-  ],
-  bootstrap: [IonicApp],
-  entryComponents: [
-    MyApp,
-    HomePage
+    IonicModule.forRoot(),
+    AppRoutingModule,
+    ReactiveFormsModule,
+    provideFirebaseApp(() => initializeApp(environment.firebase)),
+    // provideFirestore(() => getFirestore()),
+    provideStorage(() => getStorage()),
+    provideAuth(() => getAuth()),
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireAuthModule
+
   ],
   providers: [
-    StatusBar,
-    SplashScreen,
-    ImagePicker,
-    Crop,
-    FirebaseService,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
-  ]
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+  ],
+  bootstrap: [AppComponent]
 })
 export class AppModule {}

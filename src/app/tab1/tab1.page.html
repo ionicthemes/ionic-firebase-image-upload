@@ -1,0 +1,44 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Public Images
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <!-- <ion-title size="large">Public Images</ion-title> -->
+      <ion-title size="large">Ionic Tutorial</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-row class="copy-row">
+    <ion-col>
+      <p>This demo app shows how to use Firebase Storage from an Ionic app.</p>
+      <p>Files can be either public or protected using security rules to determine who has access to them. This section includes public files. <a [routerLink]="['/tabs/tab2']">Tab2</a> shows how to upload and load protected files.</p>
+    </ion-col>
+  </ion-row>
+  <ion-grid>
+    <h3 class="section-title">Posts</h3>
+    <ion-row>
+      <ion-col class="post-item" size="6" *ngFor="let photo of posts.imagesUrls;">
+        <app-aspect-ratio [ratio]="{w:1, h:1}">
+          <app-image-shell animation="spinner" [src]="photo" [alt]=""></app-image-shell>
+        </app-aspect-ratio>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-grid>
+    <h3 class="section-title">Friends</h3>
+    <ion-row class="friends-row">
+      <ion-col class="friend-item" *ngFor="let photo of friends.imagesUrls;">
+        <app-aspect-ratio [ratio]="{w:1, h:1}">
+          <app-image-shell animation="spinner" [src]="photo" [alt]=""></app-image-shell>
+        </app-aspect-ratio>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>

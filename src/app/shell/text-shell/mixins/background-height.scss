@@ -1,0 +1,6 @@
+@mixin background-height($property, $lines: 1) {
+  $line-height: var(--text-shell-line-height, 16px);
+  $line-spacing: var(--text-shell-line-gutter, 3px);
+
+  #{$property}: calc((#{$line-height} * #{$lines}) + (#{$line-spacing} * (#{$lines} - 1)));
+}
