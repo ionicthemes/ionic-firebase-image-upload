@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Storage, ref, getStorage, uploadString, listAll, getDownloadURL, deleteObject, StorageReference, ListResult } from '@angular/fire/storage';
+import { Storage, ref, getStorage, uploadString, listAll, getDownloadURL, deleteObject, StorageReference, ListResult, UploadResult } from '@angular/fire/storage';
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, UserCredential, onAuthStateChanged, User, signOut } from "@angular/fire/auth";
 import { Platform } from '@ionic/angular';
 import { Photo } from '@capacitor/camera';
@@ -26,12 +26,10 @@ export class DataService {
 
   constructor(
     private platform: Platform,
-    private storage: Storage
+    private _fireStorage: Storage
   ) {
 
-    const auth = getAuth();
-
-    onAuthStateChanged(auth, (user) => {
+    onAuthStateChanged(getAuth(), (user) => {
       if (user) {
         // User is signed in, see docs for a list of available properties
         this.currentUser = user;
@@ -42,7 +40,6 @@ export class DataService {
         this.loggedUser.next(null);
       }
     });
-
   }
 
   loggedUserObservable() {
@@ -164,10 +161,16 @@ export class DataService {
     const fileName = new Date().getTime() + '.jpeg';
     const spaceRef = ref(imagesRef, fileName);
 
-    const savedFile = await uploadString(spaceRef, base64Data, 'data_url');
-    const fileUrl = await getDownloadURL(ref(imagesRef, savedFile.metadata.name));
+    let savedFile: UploadResult;
 
-    return fileUrl;
+    // "hybrid" will detect Cordova or Capacitor
+    if (this.platform.is('hybrid')) {
+      savedFile = await uploadString(spaceRef, base64Data, 'base64');
+    } else {
+      savedFile = await uploadString(spaceRef, base64Data, 'data_url');
+    }
+
+    return await getDownloadURL(ref(imagesRef, savedFile?.metadata.name));
   }
 
   // Read camera photo into base64 format based on the platform the app is running on
@@ -178,7 +181,7 @@ export class DataService {
       const file = await Filesystem.readFile({
         path: cameraPhoto.path,
       });
-
+      // return file.data;
       return file.data;
     } else {
       // Fetch the photo, read as a blob, then convert to base64 format

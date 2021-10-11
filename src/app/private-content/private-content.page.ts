@@ -50,7 +50,7 @@ export class PrivateContentPage implements OnInit, OnDestroy {
     // Take a photo
     const capturedPhoto = await Camera.getPhoto({
       resultType: CameraResultType.Uri, // file-based data; provides best performance
-      source: CameraSource.Camera, // automatically take a new photo with the camera
+      source: CameraSource.Prompt, // prompts the user to select either the photo album or take a photo.
       quality: 100, // highest quality (0 to 100)
     });
 

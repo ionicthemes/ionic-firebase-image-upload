@@ -1,8 +1,8 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.example.app',
-  appName: 'firebase-file-storage-tutorial',
+  appId: 'io.ionic.starter',
+  appName: 'firebase-database-tutorial',
   webDir: 'www',
   bundledWebRuntime: false
 };

@@ -1,0 +1,6 @@
+{
+	"appId": "io.ionic.starter",
+	"appName": "firebase-database-tutorial",
+	"webDir": "www",
+	"bundledWebRuntime": false
+}

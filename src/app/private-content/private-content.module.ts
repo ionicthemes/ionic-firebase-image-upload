@@ -7,6 +7,9 @@ import { AngularFireAuthGuard, redirectUnauthorizedTo } from '@angular/fire/comp
 import { IonicModule } from '@ionic/angular';
 import { ShellModule } from '../shell/shell.module';
 
+import { provideAuth } from '@angular/fire/auth';
+import { whichAuth } from '../services/firebase-auth-helper';
+
 const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['/tabs/tab2']);
 
 @NgModule({
@@ -15,6 +18,7 @@ const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['/tabs/tab2'])
     CommonModule,
     IonicModule,
     ShellModule,
+    provideAuth(() => whichAuth()),
     RouterModule.forChild([
       {
         path: '',
