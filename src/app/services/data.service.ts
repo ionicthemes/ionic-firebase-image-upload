@@ -90,40 +90,6 @@ export class DataService {
     return this.postsDataStore;
   }
 
-  private getImages(bucketPath: string): Observable<ImageListingModel> {
-    const storageRef = ref(getStorage());
-
-    // Points to our firestorage folder with path bucketPath
-    const friendsRef = ref(storageRef, bucketPath);
-
-    return from(this.getDownloadURLs(friendsRef))
-    .pipe(
-      map(urls => {
-        const model = new ImageListingModel();
-        model.imagesUrls = urls;
-        return model;
-      })
-    )
-  }
-
-  private getDownloadURLs(imagesRef: StorageReference): Promise<string[]> {
-    return new Promise((resolve, reject) => {
-      listAll(imagesRef)
-      .then((listResult: ListResult) => {
-        let downloadUrlsPromises: Promise<string>[] = [];
-
-        listResult.items.forEach((itemRef: StorageReference) => {
-          // returns the download url of a given file reference
-          const itemUrl = getDownloadURL(ref(imagesRef, itemRef.name));
-          downloadUrlsPromises.push(itemUrl);
-        });
-
-        Promise.all(downloadUrlsPromises)
-        .then((downloadUrls: string[]) => resolve(downloadUrls));
-      }).catch((error) => reject(error));
-    });
-  }
-
   public getPrivateFilesDataSource(): Observable<ImageListingModel> {
     return this.loggedUser
     .pipe(
@@ -147,7 +113,7 @@ export class DataService {
   }
 
   // Save picture to file on device
-  async savePictureInFirebaseStorage(cameraPhoto: Photo) {
+  public async savePictureInFirebaseStorage(cameraPhoto: Photo) {
     // Convert photo to base64 format, required by Filesystem API to save
     const base64Data = await this.readAsBase64(cameraPhoto);
 
@@ -209,6 +175,40 @@ export class DataService {
     const imageToDeleteRef = ref(imagesRef, filename);
     // Delete the file
     return deleteObject(imageToDeleteRef);
+  }
+
+  private getImages(bucketPath: string): Observable<ImageListingModel> {
+    const storageRef = ref(getStorage());
+
+    // Points to our firestorage folder with path bucketPath
+    const friendsRef = ref(storageRef, bucketPath);
+
+    return from(this.getDownloadURLs(friendsRef))
+    .pipe(
+      map(urls => {
+        const model = new ImageListingModel();
+        model.imagesUrls = urls;
+        return model;
+      })
+    )
+  }
+
+  private getDownloadURLs(imagesRef: StorageReference): Promise<string[]> {
+    return new Promise((resolve, reject) => {
+      listAll(imagesRef)
+      .then((listResult: ListResult) => {
+        let downloadUrlsPromises: Promise<string>[] = [];
+
+        listResult.items.forEach((itemRef: StorageReference) => {
+          // returns the download url of a given file reference
+          const itemUrl = getDownloadURL(ref(imagesRef, itemRef.name));
+          downloadUrlsPromises.push(itemUrl);
+        });
+
+        Promise.all(downloadUrlsPromises)
+        .then((downloadUrls: string[]) => resolve(downloadUrls));
+      }).catch((error) => reject(error));
+    });
   }
 
   private convertBlobToBase64 = (blob: Blob) =>

@@ -24,7 +24,7 @@ const redirectLoggedInToProfile = (next) => map(user => {
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    provideAuth(() => whichAuth()),
+    provideAuth(() => whichAuth),
     RouterModule.forChild([
       {
         path: '',

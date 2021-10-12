@@ -3,12 +3,12 @@
     "ionic-contacts-app": {
       "hosting": {
         "app": [
-          "ionic-contacts-app"
+          "storage-tutorial"
         ]
       }
     }
   },
   "projects": {
-    "demo": "ionic-contacts-app"
+    "storage-tutorial": "storage-tutorial"
   }
 }
