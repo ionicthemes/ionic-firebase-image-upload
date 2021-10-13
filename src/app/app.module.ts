@@ -9,6 +9,8 @@ import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
 import { provideStorage, getStorage } from "@angular/fire/storage";
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { AngularFireModule } from '@angular/fire/compat';
+import { provideAuth } from '@angular/fire/auth';
+import { whichAuth } from './utils/firebase-auth-helper';
 
 @NgModule({
   declarations: [AppComponent],
@@ -16,11 +18,11 @@ import { AngularFireModule } from '@angular/fire/compat';
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,
-    // 
-    // AngularFireModule.initializeApp(environment.firebase),
-    // AngularFireAuthModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireAuthModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
-    provideStorage(() => getStorage())
+    provideStorage(() => getStorage()),
+    provideAuth(() => whichAuth)
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }

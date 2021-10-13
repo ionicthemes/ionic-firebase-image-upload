@@ -6,11 +6,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Tab2Page } from './tab2.page';
 import { AngularFireAuthGuard } from '@angular/fire/compat/auth-guard';
 import { map } from 'rxjs/operators';
-import { provideAuth } from '@angular/fire/auth';
-import { AngularFireModule } from '@angular/fire/compat';
-import { environment } from 'src/environments/environment';
-import { AngularFireAuthModule } from '@angular/fire/compat/auth';
-import { whichAuth } from '../utils/firebase-auth-helper';
 
 // Firebase guard to redirect logged in private content page
 const redirectLoggedInToProfile = (next) => map(user => {
@@ -27,9 +22,6 @@ const redirectLoggedInToProfile = (next) => map(user => {
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    AngularFireModule.initializeApp(environment.firebase),
-    AngularFireAuthModule,
-    provideAuth(() => whichAuth),
     RouterModule.forChild([
       {
         path: '',
