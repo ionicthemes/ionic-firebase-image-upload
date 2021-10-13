@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { DataService } from '../services/data.service';
+import { DataService } from '../utils/services/data.service';
 
 @Component({
   selector: 'app-tab2',
@@ -48,7 +48,7 @@ export class Tab2Page {
     this.dataService.signInToFirebase(email, password)
     .then(user => {
       this.submitSuccess = "User signed in successfully.";
-      this.router.navigate(['private-content']);
+      this.router.navigate(['tabs/tab2/private-content']);
     })
     .catch(error => {
       this.submitError = error.message;
@@ -65,7 +65,7 @@ export class Tab2Page {
       // automatically sign the user in
       this.dataService.signInToFirebase(email, password)
       .then(user => {
-        this.router.navigate(['private-content']);
+        this.router.navigate(['tabs/tab2/private-content']);
       })
     })
     .catch(error => {

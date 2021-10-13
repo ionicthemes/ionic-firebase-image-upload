@@ -4,8 +4,8 @@ import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { ActionSheetController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ImageListingModel } from '../models/image-listing.model';
-import { DataService } from '../services/data.service';
+import { ImageListingModel } from '../utils/models/image-listing.model';
+import { DataService } from '../utils/services/data.service';
 
 @Component({
   selector: 'app-private-content',
@@ -23,8 +23,6 @@ export class PrivateContentPage implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router
   ) {}
-
-
 
   ngOnInit() {
     const sub1 = this.route.data
@@ -52,6 +50,7 @@ export class PrivateContentPage implements OnInit, OnDestroy {
       resultType: CameraResultType.Uri, // file-based data; provides best performance
       source: CameraSource.Prompt, // prompts the user to select either the photo album or take a photo.
       quality: 100, // highest quality (0 to 100)
+      allowEditing: true
     });
 
     const savedImageFile = await this.dataService.savePictureInFirebaseStorage(capturedPhoto);

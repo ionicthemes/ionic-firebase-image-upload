@@ -9,4 +9,4 @@ We included examples of both cases: a section with public files visible to every
 - [DEMO](https://storage-tutorial.web.app)
 <!-- - [TUTORIAL](https://ionicthemes.com/tutorials/add-a-firebase-database-to-your-ionic-app) -->
 
-<!-- ![](https://static.ionicthemes.com/freebies/add-a-firebase-database-to-your-ionic-app-freebie.png) --> -->
+<!-- ![](https://static.ionicthemes.com/freebies/add-a-firebase-database-to-your-ionic-app-freebie.png) --> 

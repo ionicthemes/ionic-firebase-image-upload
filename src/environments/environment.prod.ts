@@ -9,9 +9,6 @@ export const environment = {
     appId: "1:38298401556:web:3a7d8eba7b11c5aa74a001"
   },
   appShellConfig: {
-    debug: false,
-    networkDelay: 500
-    // We wait on purpose 1 or 2 secs on local environment when fetching from json to simulate the backend roundtrip.
-    // However, in production you should set this delay to 0 in the environment.prod file.
+    debug: false
   }
 };

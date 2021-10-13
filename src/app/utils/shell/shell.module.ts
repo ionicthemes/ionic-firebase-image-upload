@@ -4,13 +4,11 @@ import { IonicModule } from '@ionic/angular';
 
 import { AspectRatioComponent } from './aspect-ratio/aspect-ratio.component';
 import { ImageShellComponent } from './image-shell/image-shell.component';
-import { TextShellComponent } from './text-shell/text-shell.component';
 
 @NgModule({
   declarations: [
     AspectRatioComponent,
-    ImageShellComponent,
-    TextShellComponent
+    ImageShellComponent
   ],
   providers: [
   ],
@@ -20,8 +18,7 @@ import { TextShellComponent } from './text-shell/text-shell.component';
   ],
   exports: [
     AspectRatioComponent,
-    ImageShellComponent,
-    TextShellComponent
+    ImageShellComponent
   ]
 })
 export class ShellModule { }

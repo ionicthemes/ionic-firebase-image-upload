@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { RouterModule } from '@angular/router';
 import { Tab1Page } from './tab1.page';
-import { ShellModule } from '../shell/shell.module';
+import { ShellModule } from '../utils/shell/shell.module';
 import { Tab1Resolver } from './tab1.resolver';
 
 @NgModule({

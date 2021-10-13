@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Resolve } from '@angular/router';
 import { Observable } from 'rxjs';
-import { DataStore } from '../shell/data-store';
-import { DataService } from '../services/data.service';
-import { ImageListingModel } from '../models/image-listing.model';
+import { DataStore } from '../utils/shell/data-store';
+import { DataService } from '../utils/services/data.service';
+import { ImageListingModel } from '../utils/models/image-listing.model';
 
 @Injectable()
 export class Tab1Resolver implements Resolve<any> {

@@ -5,11 +5,6 @@ const routes: Routes = [
   {
     path: '',
     loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
-  },
-  {
-    path: 'private-content',
-    loadChildren: () =>
-      import('./private-content/private-content.module').then(m => m.PrivateContentModule)
   }
 ];
 

@@ -1,7 +1,5 @@
 import { Component, Input, HostBinding } from '@angular/core';
-import { environment } from '../../../environments/environment';
-
-// import { ImageShellState, TransferStateHelper } from '../../utils/transfer-state-helper';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-image-shell',
@@ -21,7 +19,6 @@ export class ImageShellComponent {
   // tslint:disable-next-line:variable-name
   _display = '';
 
-  // @HostBinding('class.img-ssr') imageSSR = false;
   @HostBinding('class.img-loaded') imageLoaded = false;
   @HostBinding('class.img-error') imageError = false;
 
@@ -49,17 +46,10 @@ export class ImageShellComponent {
       this._src = (val !== undefined && val !== null) ? val : '';
     }
 
-    // When using SSR (Server Side Rendering), avoid the loading animation while the image resource is being loaded
-    // const imageState = this.transferStateHelper.checkImageShellState('shell-images-state', this._src);
-
-    // if (imageState === ImageShellState.SSR || imageState === ImageShellState.BROWSER_FROM_SSR) {
-    //   this._imageProcessedInServer();
-    // } else {
-      if (this._display === 'cover') {
-        // Unset the background-image until the image is loaded
-        this.backgroundImage = 'unset';
-      }
-    // }
+    if (this._display === 'cover') {
+      // Unset the background-image until the image is loaded
+      this.backgroundImage = 'unset';
+    }
   }
 
   @Input()
@@ -67,18 +57,7 @@ export class ImageShellComponent {
     this._alt = (val !== undefined && val !== null) ? val : '';
   }
 
-  constructor(
-    // private transferStateHelper: TransferStateHelper
-  ) { }
-
-  // _imageProcessedInServer(): void {
-  //   this.imageSSR = true;
-  //
-  //   // Also set backgroundImage so it's ready when transitioning from SSR to the browser
-  //   if (this._display === 'cover') {
-  //     this.backgroundImage = 'url(' + this._src + ')';
-  //   }
-  // }
+  constructor() { }
 
   _imageLoaded(): void {
     this.imageLoaded = true;
@@ -96,7 +75,6 @@ export class ImageShellComponent {
     // Avoid that shell case
     if (this._src && this._src !== '') {
       this.imageLoaded = false;
-      // this.imageSSR = false;
 
       setTimeout(() => {
         this.imageError = true;
