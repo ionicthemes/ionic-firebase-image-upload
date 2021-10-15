@@ -14,15 +14,9 @@
   </ion-header>
   <ion-row class="copy-row">
     <ion-col>
-      <p>This page allows you to list and upload files that can only be accessed by you.</p>
-      <p><a [routerLink]="['/']">Return to public content</a>.</p>
+      <p>This page allows you to list and upload files that only you can access.</p>
     </ion-col>
   </ion-row>
-<!--
-  <ion-button class="upload-image-btn" (click)="openCameraComponent()" expand="block">
-    <ion-icon slot="start" name="camera"></ion-icon>
-    Take Photo
-  </ion-button> -->
 
   <ion-row class="buttons-row">
     <ion-col>
@@ -38,7 +32,7 @@
 
   <ion-row class="copy-row" *ngIf="files.imagesUrls.length == 0">
     <ion-col>
-      <h4>There are no files uploaded by this user yet.</h4>
+      <p class="empty-state-copy">We couldn't find any files related to your account. Please take a photo and we will upload it to your personal storage folder.</p>
     </ion-col>
   </ion-row>
   <ion-grid *ngIf="files.imagesUrls.length > 0">

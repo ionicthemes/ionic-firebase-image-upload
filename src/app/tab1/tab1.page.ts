@@ -18,7 +18,7 @@ export class Tab1Page implements OnInit, OnDestroy {
   constructor(private route: ActivatedRoute) {}
 
   ngOnInit() {
-    this.route.data
+    const sub3 = this.route.data
     .pipe(
       map((resolvedRouteData) => {
 
@@ -26,17 +26,18 @@ export class Tab1Page implements OnInit, OnDestroy {
         const postsDataStore = resolvedRouteData['data'].posts;
 
         const sub1 = friendsDataStore.state.subscribe(
-          (state: ImageListingModel) => this.friends = state
+          (dataModel: ImageListingModel) => this.friends = dataModel
         );
 
         const sub2 = postsDataStore.state.subscribe(
-          (state: ImageListingModel) => this.posts = state
+          (dataModel: ImageListingModel) => this.posts = dataModel
         );
 
         this.subs.push(sub1);
         this.subs.push(sub2);
       })
     ).subscribe();
+    this.subs.push(sub3);
   }
 
   ngOnDestroy(): void {

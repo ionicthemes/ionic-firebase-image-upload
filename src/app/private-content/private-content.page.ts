@@ -29,8 +29,8 @@ export class PrivateContentPage implements OnInit, OnDestroy {
     .pipe(
       map((resolvedRouteData) => {
         const sub2 = resolvedRouteData['data'].state.subscribe(
-          (state: ImageListingModel) => {
-            this.files = state;
+          (dataModel: ImageListingModel) => {
+            this.files = dataModel;
           }
         );
         this.subs.push(sub2);
@@ -47,10 +47,9 @@ export class PrivateContentPage implements OnInit, OnDestroy {
   async openCameraComponent() {
     // Take a photo
     const capturedPhoto = await Camera.getPhoto({
-      resultType: CameraResultType.Uri, // file-based data; provides best performance
+      resultType: CameraResultType.Base64,
       source: CameraSource.Prompt, // prompts the user to select either the photo album or take a photo.
-      quality: 100, // highest quality (0 to 100)
-      allowEditing: true
+      quality: 90 // highest quality (0 to 100)
     });
 
     const savedImageFile = await this.dataService.savePictureInFirebaseStorage(capturedPhoto);
@@ -87,6 +86,6 @@ export class PrivateContentPage implements OnInit, OnDestroy {
 
   signOut() {
     this.dataService.signOutFromFirebase()
-    .then(() => this.router.navigate(['/']));
+    .then(() => this.router.navigate(['/tabs/tab2']));
   }
 }

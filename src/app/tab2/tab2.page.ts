@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ViewWillEnter } from '@ionic/angular';
 import { DataService } from '../utils/services/data.service';
 
 @Component({
@@ -8,7 +9,7 @@ import { DataService } from '../utils/services/data.service';
   templateUrl: 'tab2.page.html',
   styleUrls: ['tab2.page.scss']
 })
-export class Tab2Page {
+export class Tab2Page implements ViewWillEnter {
   loginForm: FormGroup;
   submitError: string;
   submitSuccess: string;
@@ -38,6 +39,11 @@ export class Tab2Page {
         Validators.required
       ]))
     });
+  }
+
+  ionViewWillEnter(): void {
+    // empty the form success message
+    this.submitSuccess = "";
   }
 
   doSignIn(): void {

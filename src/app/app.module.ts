@@ -18,10 +18,14 @@ import { whichAuth } from './utils/firebase-auth-helper';
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,
-    AngularFireModule.initializeApp(environment.firebase),
-    AngularFireAuthModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideStorage(() => getStorage()),
+    // Auth guards are not yet implemented in the new AngularFire so we need to load them from the 'old' modules
+    // Issue: https://github.com/angular/angularfire/issues/2986#
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireAuthModule,
+    // Firebase auth needs to be initialized manually on iOS because the default getAuth() function assumes you're in a browser context and automatically includes web code that causes errors in iOS.
+    // Issue https://github.com/firebase/firebase-js-sdk/issues/5019#issuecomment-861761505
     provideAuth(() => whichAuth)
   ],
   providers: [

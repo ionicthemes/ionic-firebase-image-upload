@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Storage, ref, getStorage, uploadString, listAll, getDownloadURL, deleteObject, StorageReference, ListResult, UploadResult } from '@angular/fire/storage';
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, UserCredential, onAuthStateChanged, User, signOut } from "@angular/fire/auth";
-import { Platform } from '@ionic/angular';
 import { Photo } from '@capacitor/camera';
-import { Filesystem } from '@capacitor/filesystem';
 import { from, Observable, ReplaySubject } from 'rxjs';
 import { DataStore } from '../shell/data-store';
 import { ImageListingModel } from '../models/image-listing.model';
@@ -18,14 +16,12 @@ export class DataService {
 
   private friendsDataStore: DataStore<ImageListingModel>;
   private postsDataStore: DataStore<ImageListingModel>;
-  private privateContentDataStore: DataStore<ImageListingModel>;
 
   private currentUser: User;
   private loggedUser: ReplaySubject<any> = new ReplaySubject<any>(1);
 
 
   constructor(
-    private platform: Platform,
     private _fireStorage: Storage
   ) {
 
@@ -101,21 +97,18 @@ export class DataService {
   }
 
   public getPrivateFilesDataStore(dataSource: Observable<ImageListingModel>): DataStore<ImageListingModel> {
-    // Check if we already loaded this object
-    if (!this.privateContentDataStore) {
-      // Initialize the model specifying that it is a shell model
-      const shellModel: ImageListingModel = new ImageListingModel();
-      this.privateContentDataStore = new DataStore(shellModel);
-      this.privateContentDataStore.load(dataSource);
-    }
 
-    return this.privateContentDataStore;
+    // Initialize the model specifying that it is a shell model
+    const shellModel: ImageListingModel = new ImageListingModel();
+
+    let privateContentDataStore: DataStore<ImageListingModel> = new DataStore(shellModel);
+    privateContentDataStore.load(dataSource);
+
+    return privateContentDataStore;
   }
 
   // Save picture to file on device
   public async savePictureInFirebaseStorage(cameraPhoto: Photo) {
-    // Convert photo to base64 format, required by Filesystem API to save
-    const base64Data = await this.readAsBase64(cameraPhoto);
 
     // Get a reference to the storage service, which is used to create references in your storage bucket
     const storageRef = ref(getStorage());
@@ -127,38 +120,12 @@ export class DataService {
     const fileName = new Date().getTime() + '.jpeg';
     const spaceRef = ref(imagesRef, fileName);
 
-    let savedFile: UploadResult;
-
-    // "hybrid" will detect Cordova or Capacitor
-    if (this.platform.is('hybrid')) {
-      savedFile = await uploadString(spaceRef, base64Data, 'base64');
-    } else {
-      savedFile = await uploadString(spaceRef, base64Data, 'data_url');
-    }
+    let savedFile: UploadResult = await uploadString(spaceRef, cameraPhoto.base64String, 'base64');
 
     return await getDownloadURL(ref(imagesRef, savedFile?.metadata.name));
   }
 
-  // Read camera photo into base64 format based on the platform the app is running on
-  private async readAsBase64(cameraPhoto: Photo) {
-    // "hybrid" will detect Cordova or Capacitor
-    if (this.platform.is('hybrid')) {
-      // Read the file into base64 format
-      const file = await Filesystem.readFile({
-        path: cameraPhoto.path,
-      });
-      // return file.data;
-      return file.data;
-    } else {
-      // Fetch the photo, read as a blob, then convert to base64 format
-      const response = await fetch(cameraPhoto.webPath!);
-      const blob = await response.blob();
-
-      return (await this.convertBlobToBase64(blob)) as string;
-    }
-  }
-
-  // Delete picture by removing it from reference data and the filesystem
+  // Delete picture
   public deletePicture(photo: string, position: number) {
     // Remove this photo from the Photos reference data array
     this.photos.splice(position, 1);
@@ -178,19 +145,23 @@ export class DataService {
   }
 
   private getImages(bucketPath: string): Observable<ImageListingModel> {
-    const storageRef = ref(getStorage());
+    // Get a reference to the storage service, which is used to create references in your storage bucket
+    const storage = getStorage();
+
+    // Create a storage reference from our storage service
+    const storageRef = ref(storage);
 
     // Points to our firestorage folder with path bucketPath
-    const friendsRef = ref(storageRef, bucketPath);
+    const folderRef = ref(storageRef, bucketPath);
 
-    return from(this.getDownloadURLs(friendsRef))
+    return from(this.getDownloadURLs(folderRef))
     .pipe(
       map(urls => {
         const model = new ImageListingModel();
         model.imagesUrls = urls;
         return model;
       })
-    )
+    );
   }
 
   private getDownloadURLs(imagesRef: StorageReference): Promise<string[]> {
@@ -210,14 +181,4 @@ export class DataService {
       }).catch((error) => reject(error));
     });
   }
-
-  private convertBlobToBase64 = (blob: Blob) =>
-    new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onerror = reject;
-      reader.onload = () => {
-        resolve(reader.result);
-      };
-      reader.readAsDataURL(blob);
-    });
 }

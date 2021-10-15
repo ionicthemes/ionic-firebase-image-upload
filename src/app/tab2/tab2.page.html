@@ -14,7 +14,7 @@
   </ion-header>
   <ion-row class="copy-row">
     <ion-col>
-      <p>In order to upload protected files to Firebase Storage we first need to authenticate. This way the files can restrict access to content by user. <a href="https://firebase.google.com/docs/rules/rules-language?authuser=0" target="_blank">Understand Firebase security rules</a>.</p>
+      <p>In order to upload protected files to Firebase Storage we first need to authenticate. This way, access to the files is enabled only for their owner. <a href="https://firebase.google.com/docs/rules/rules-language?authuser=0" target="_blank">Understand Firebase security rules</a>.</p>
     </ion-col>
   </ion-row>
   <form [formGroup]="loginForm" (ngSubmit)="doLogin()" class="login-form">
